@@ -88,7 +88,7 @@ function getResults(searchWord) {
 	   	$("#renderedResults").empty();
 	   	//append
 	   	for(let i= 0; i<articles.length; i++){
-		   	$("#renderedResults").append(`<div class = 'itemHere'><p>${articles[i].title}</p>${articles[i].url}<p>${articles[i].date}</p></div><br>`)
+		   	$("#renderedResults").append(`<div class = 'itemHere'><p>${articles[i].title}</p><a target = "_blank" href = "${articles[i].url}">${articles[i].url}</a><p>${articles[i].date}</p></div><br>`)
 		}
 	}
    //structure of where I want to append to:

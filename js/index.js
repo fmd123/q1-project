@@ -20,7 +20,7 @@ var searchWord = "";
 var articles = [];
 
 
-//Click Handler:::::::::::::::::::::::::::::::::::::::::::
+//Click Handlers:::::::::::::::::::::::::::::::::::::::::::
 var results = [];
 $("#go").click((event)=>{
 	
@@ -32,36 +32,54 @@ $("#go").click((event)=>{
 	
 	console.log("inside click event: " + searchWord);
 
-	getResults(searchWord);
+	getResultsG(searchWord);
 	$("#wordInput").text("");
 	// results = [];
 
 });
+
+
+$("#synonym").click((event)=>{
+	
+	event.preventDefault();
+	
+	searchWord = $("#wordInput").val().trim();
+	//add some additional validation to prevent entering numbers?
+	//or do I want capable of searching string numbers?
+	
+	console.log("inside click event: " + searchWord);
+
+	getResultsS(searchWord);
+	$("#wordInput").text("");
+	// results = [];
+
+});
+
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //GUARDIAN:
 
-function getResults(searchWord) {
-		// debugger;
-		console.log("inside getResults: " + searchWord);
-      $.ajax({
+function getResultsG(searchWord) {
+	//console.log("inside getResults: " + searchWord);
+     $.ajax({
         url: 'https://content.guardianapis.com/search?api-key=f9588bdb-e1b7-424b-974d-7aabd978c542&q='+searchWord,
         method: "GET",
         dataType: "json",
-     //    data:{
-     //    q: searchWord
-    	// }
-        // // 	api-key: ""if I did it this way just the key with no "api-key =" part
-        // } 
+				     // data:{
+				     //    q: searchWord
+				    	// }
+				        // // 	api-key: ""if I did it this way just the key with no "api-key =" part
+				        // } 
      
       }).done((response) => {
-		parseResult(response);
+		parseResultG(response);
       }).fail((err) =>{
       	console.log("Unable to find word", err)
       	alert("Unable to Find Word");
-  })
-    }
+  	})
+}
 
 
-    function parseResult(response){
+    function parseResultG(response){
 
     	var articleArr = response.response.results;
     	
@@ -78,34 +96,131 @@ function getResults(searchWord) {
     		articles.push(obj);
     	}
     	console.log(articles);
-    	renderResult(articles);
+    	renderResultG(articles);
     }
 
 
 
-   function renderResult(array){
+   function renderResultG(array){
    	//empty #renderedResults
 	   	$("#renderedResults").empty();
 	   	//append
 	   	for(let i= 0; i<articles.length; i++){
 		   	$("#renderedResults").append(`<div class = 'itemHere'><p>${articles[i].title}</p><a target = "_blank" href = "${articles[i].url}">${articles[i].url}</a><p>${articles[i].date}</p></div><br>`)
+		   	//add date in when I have time to format it <p>${articles[i].date}</p>
 		}
 	}
-   //structure of where I want to append to:
-   // </div>
-   //  <div class = "row center" id = "renderedResults">
-   //  </div>
-//GET abstract and search the string for word
-//return array of articles with the word inside #input
-//How far back do I want to go?
 
-//WORDNIK
-//GET the definition
-//return and put into #input
+//:::WORDNIK SYNONYM:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+function getResultsS(searchWord) {
+	//console.log("inside getResults: " + searchWord);
+     $.ajax({
+        url: 'http://api.wordnik.com:80/v4/word.json/'+searchWord +'/relatedWords?useCanonical=false&relationshipTypes=synonym&limitPerRelationshipType=10&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5',
+        method: "GET",
+        dataType: "json",
+				      
+     
+      }).done((response) => {
+		parseResultS(response);
+      }).fail((err) =>{
+      	console.log("Unable to find word", err)
+      	alert("Unable to Find Word");
+  	})
+}
 
-//NYT 
 
 
+
+function parseResultS(response){
+		console.log(response);
+    	var synonymArr = response[0].words;
+    	console.log("synonymArr inside parseResults: ", synonymArr)                                               
+    	renderResultsS(synonymArr);
+    }
+
+
+
+   function renderResultsS(synonymArr){
+   		console.log("render");
+   		console.log(synonymArr)
+   	//empty #renderedResults
+	   	$("#renderedResults").empty();
+	   	//append
+	 for(let i= 0; i<synonymArr.length; i++){
+		$("#renderedResults").append(`<div class = 'itemHere'><p>${synonymArr[i]}</p></div><br>`)
+		 }
+	}
+
+// ::::NYT::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	$("#nyt").click((event)=>{
+		
+		event.preventDefault();
+		
+		searchWord = $("#wordInput").val().trim();
+		//add some additional validation to prevent entering numbers?
+		//or do I want capable of searching string numbers?
+		
+		console.log("inside click event: " + searchWord);
+
+		getResultsN(searchWord);
+		$("#wordInput").text("");
+		// results = [];
+
+	});
+
+	function getResultsN(searchWord) {
+		console.log("inside getResults: " + searchWord);
+			var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+			url += '?' + $.param({
+			  'api-key': "f81673fdb9a54c93a6d79b0825eb212b",
+			  'fq': searchWord,
+			  'sort': "oldest"
+			});
+			$.ajax({
+			  url: url,
+			  method: 'GET',
+			}).done(function(result) {
+			  parseResultN(result);
+			}).fail(function(err) {
+			  throw err;
+			});
+					 
+	}
+
+
+
+
+function parseResultN(result){
+		console.log("inside parseResults: ", result);
+    	var resource = result.response.docs;
+    	console.log("resource inside parse: ", resource); 
+
+    	console.log(resource[1].pub_date);
+    	console.log(resource[1].snippet);
+    	console.log(resource[1].headline.main);
+    	console.log(resource[1].web_url);
+
+    	renderResultN(resource);
+    }
+
+function renderResultN(resource){
+	console.log("HEY", resource)
+	debugger;
+   	//empty #renderedResults
+	   	$("#renderedResults").empty();
+	   	//append
+	   	for(let i= 0; i<resource.length; i++){
+		   	$("#renderedResults").append(`<div class = 'itemHere'><p>${resource[i].headline.main}</p><a target = "_blank" href = "${resource[i].web_url}">${resource[i].web_url}</a><p>${resource[i].snippet}</p><p>${resource[i].pub_date}</p></div><br>`)
+		   	//add date in when I have time to format it <p>${articles[i].date}</p>
+		}
+	}
+
+
+
+// :::OTHER POSSIBLE APIs:::::::::::::::::::::::::
+// https://www.programmableweb.com/api/neutrino-bad-word-filter
+//https://www.programmableweb.com/api/pressmoncom
+//https://www.programmableweb.com/api/notable-and-quotable-random-quote
 
 
 
@@ -114,3 +229,4 @@ function getResults(searchWord) {
 }); //end of document.ready
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 })(); //END OF iife that puts in strict mode
+

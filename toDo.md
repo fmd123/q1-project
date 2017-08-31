@@ -12,3 +12,16 @@ Surge
 S3
 Bonus for S3 with a custom domain
 Firebase
+
+
+TO DO: 
+Refect number strings with regex
+Move input text over a little bit (center?) and make font larger
+What the heck is going on with my css? 
+Make fonts nicer. 
+
+Add NYT
+Add Wordnik
+Add???? 
+
+NYT KEY: f9588bdb-e1b7-424b-974d-7aabd978c542

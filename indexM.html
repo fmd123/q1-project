@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
   <title>wordGeek M</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
+
 <body>
   <nav class="amber lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Word Geek</a>
@@ -27,21 +29,37 @@
   <div class="section no-pad-bot amber lighten-4" id="index-banner">
     <div class="container">
       <br><br>
-      <h1 class="header center red-text darken-4">Word Geek</h1>
+      <h3 class="header center red-text darken-4">Word Geek</h>
       <div class="row center">
-        <input type="text" id="wordInput" placeholder = "  Enter Your Word Here" class = "blue-text darken-4 white" >
-      <div class="row center">
-        <h5 class="header col s12 light">Enter a word to get a definition and any recent use in The Guardian</h5>
+        <input class = "row left" type="text" id="wordInput" placeholder = "  Enter Your Word Here" class = "blue-text darken-4 white" >
+      <!-- ...............................................-->
+      <div class="row">
+        <h5 class="header col s12 light">Recent Use in The Guardian</h5>
       </div>
-      <div class="row center">
-        <a href="#" id="go" class="btn-large waves-effect waves-light orange">Go</a>
+      <div class="row">
+        <a href="#" id="go" class="btn-large waves-effect waves-light orange">Guardian Articles</a>
+      </div>
+      <!-- ................................................. -->
+      <div class="row">
+        <h5 class="header col s12 light">Find Synonyms</h5>
+      </div>
+      <div class="row">
+        <a href="#" id="synonym" class="btn-large waves-effect waves-light orange">Synonyms</a>
+      </div>
+      <!-- ................................................. -->
+      <div class="row">
+        <h5 class="header col s12 light">Historical Use in New York Times</h5>
+      </div>
+      <div class="row">
+        <a href="#" id="nyt" class="btn-large waves-effect waves-light orange">NYT Articles</a>
       </div>
 
-      
+
+
 
     </div>
     <div class = "" id = "renderedResults">
-      
+
     </div>
   </div>
 
@@ -83,7 +101,7 @@
     <br><br>
   </div>
 
-  <footer class="page-footer indigo lighten-4">
+  <footer class="page-footer amber lighten-4">
     <!-- <div class="container"> -->
       <!-- <div class="row">
         <div class="col l6 s12">
@@ -115,7 +133,7 @@
     </div> -->
     <div class="footer-copyright">
       <div class="container">
-      <a class="orange-text darken-4" href="http://materializecss.com">A Q1 Project by Francesca Davis</a>
+      <!-- <a class="orange-text darken-4" href="http://materializecss.com">A Q1 Project by Francesca Davis</a> -->
       </div>
     </div>
   </footer>

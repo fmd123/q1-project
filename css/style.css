@@ -17,7 +17,8 @@ a{
 #renderedResults{
     width: 400px;
     padding: 20px;
-    margin: 20px;
+    margin: auto;
+    float: center;
 }
 
 .centerIt{

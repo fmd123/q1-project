@@ -2,61 +2,39 @@
 
 //Materialize button collapse
 //from init.js file that came with template
-//INIT.JS is CURRENTLY COMMENTED OUT IN HTML
 
-// (function($){
-//   $(function(){
+(function($){
+  $(function(){
 
-//     $('.button-collapse').sideNav();
+    $('.button-collapse').sideNav();
 
-//   }); // end of document ready
-// })(jQuery); // end of jQuery name space
-// Is this going to conflict with my other JS?
+  }); // end of document ready
+})(jQuery); // end of jQuery name space
+
+
 
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $(document).ready(function(){
 var searchWord = "";
 var articles = [];
-
-
-//Click Handlers:::::::::::::::::::::::::::::::::::::::::::
 var results = [];
-$("#go").click((event)=>{
-	
-	event.preventDefault();
-	
-	searchWord = $("#wordInput").val().trim();
-	//add some additional validation to prevent entering numbers?
-	//or do I want capable of searching string numbers?
-	
-	console.log("inside click event: " + searchWord);
 
-	getResultsG(searchWord);
-	$("#wordInput").text("");
-	// results = [];
+// GUARDIAN::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-});
-
-
-$("#synonym").click((event)=>{
-	
-	event.preventDefault();
-	
-	searchWord = $("#wordInput").val().trim();
-	//add some additional validation to prevent entering numbers?
-	//or do I want capable of searching string numbers?
-	
-	console.log("inside click event: " + searchWord);
-
-	getResultsS(searchWord);
-	$("#wordInput").text("");
-	// results = [];
-
-});
-
-// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//GUARDIAN:
+	$("#go").click((event)=>{
+		
+		event.preventDefault();
+		
+		searchWord = $("#wordInput").val().trim();
+		if(searchWord.length === 0){
+			alert("Please Enter A Word");
+			return;
+		}else{
+			getResultsG(searchWord);
+			$("#wordInput").text("");
+		}
+	});
 
 function getResultsG(searchWord) {
 	//console.log("inside getResults: " + searchWord);
@@ -106,14 +84,37 @@ function getResultsG(searchWord) {
 	   	$("#renderedResults").empty();
 	   	//append
 	   	for(let i= 0; i<articles.length; i++){
-		   	$("#renderedResults").append(`<div class = 'itemHere'><p>${articles[i].title}</p><a target = "_blank" href = "${articles[i].url}">${articles[i].url}</a><p>${articles[i].date}</p></div><br>`)
-		   	//add date in when I have time to format it <p>${articles[i].date}</p>
+	   		var articleDate = "";
+	   		var d = new Date(articles[i].date);
+	   		var articleDate = d.toDateString();
+	   		//I can slice off the time later. OK for now.
+
+		   	$("#renderedResults").append(`<div class = 'itemHere'><p>${articles[i].title}</p><a target = "_blank" href = "${articles[i].url}">${articles[i].url}</a><p>${articleDate}</p></div><br>`)
+		   	//add date in when I have time to format it <p>${articleDate}</p> 
 		}
 	}
 
 //:::WORDNIK SYNONYM:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+$("#synonym").click((event)=>{
+	
+	event.preventDefault();
+
+	searchWord = $("#wordInput").val().trim();
+	if(searchWord.length === 0){
+			alert("Please Enter A Word");
+			return;
+	}else{
+		console.log("inside click event: " + searchWord);
+		getResultsS(searchWord);
+		$("#wordInput").text("");
+	}
+
+});
+
+
 function getResultsS(searchWord) {
-	//console.log("inside getResults: " + searchWord);
+	
      $.ajax({
         url: 'http://api.wordnik.com:80/v4/word.json/'+searchWord +'/relatedWords?useCanonical=false&relationshipTypes=synonym&limitPerRelationshipType=10&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5',
         method: "GET",
@@ -133,9 +134,16 @@ function getResultsS(searchWord) {
 
 function parseResultS(response){
 		console.log(response);
+
+		if (response.length === 0){
+     		alert("No Synonyms Found")
+     		return;
+     	}else{
     	var synonymArr = response[0].words;
+
     	console.log("synonymArr inside parseResults: ", synonymArr)                                               
     	renderResultsS(synonymArr);
+    }
     }
 
 
@@ -157,15 +165,14 @@ function parseResultS(response){
 		event.preventDefault();
 		
 		searchWord = $("#wordInput").val().trim();
-		//add some additional validation to prevent entering numbers?
-		//or do I want capable of searching string numbers?
-		
-		console.log("inside click event: " + searchWord);
-
-		getResultsN(searchWord);
-		$("#wordInput").text("");
-		// results = [];
-
+		if(searchWord.length === 0){
+			alert("Please Enter A Word");
+			return;
+		}else{
+			console.log("inside click event: " + searchWord);
+			getResultsN(searchWord);
+			$("#wordInput").text("");
+		}
 	});
 
 	function getResultsN(searchWord) {
@@ -204,17 +211,35 @@ function parseResultN(result){
     }
 
 function renderResultN(resource){
-	console.log("HEY", resource)
-	debugger;
+	
    	//empty #renderedResults
 	   	$("#renderedResults").empty();
 	   	//append
 	   	for(let i= 0; i<resource.length; i++){
-		   	$("#renderedResults").append(`<div class = 'itemHere'><p>${resource[i].headline.main}</p><a target = "_blank" href = "${resource[i].web_url}">${resource[i].web_url}</a><p>${resource[i].snippet}</p><p>${resource[i].pub_date}</p></div><br>`)
-		   	//add date in when I have time to format it <p>${articles[i].date}</p>
+	   		var d = new Date(resource[i].pub_date);
+	   		var articleDate = d.toDateString();
+	   		var headline = resource[i].headline.main;
+	   		console.log(headline);
+		  
+		   	$("#renderedResults").append(`<div class = 'itemHere'><p class ="here">${resource[i].headline.main}</p><a target = "_blank" href = "${resource[i].web_url}">${resource[i].web_url}</a><p>${resource[i].snippet}</p><p>${articleDate}</p></div><br>`)
+		   	//FOR LATER: ADD A MODAL FOR DISPLAYING SNIPPET
+		   	//p>${resource[i].snippet}</p>
+		 	//	let myBtn = $("#myBtn")
+			// let closeBtn = $(".close")
+
+			// myBtn.click((event)=>{		
+			// 	event.preventDefault();
+			// 	let modalContent = $(".modal-content")
+			// 	modalContent.style.display = "block";
+			// })
+
+			// closeBtn.click((event)=>{
+			// 	$(".modal-content").style.display = "none";
+			// })
 		}
 	}
 
+	
 
 
 // :::OTHER POSSIBLE APIs:::::::::::::::::::::::::
@@ -229,4 +254,3 @@ function renderResultN(resource){
 }); //end of document.ready
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 })(); //END OF iife that puts in strict mode
-

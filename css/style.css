@@ -1,0 +1,40 @@
+
+
+#index-banner{
+    min-height: 80vh;
+    background-image: url("patrick-tomasso-71909.jpg")
+}
+
+.itemHere{
+    background-color: amber lighten-5;
+	font-size: 15px;
+    padding:10px;
+}
+
+#renderedResults{
+    width: 400px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.centerIt{
+    margin: auto;
+    width: 50%;
+}
+
+body{
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    
+}
+
+
+  main {
+    flex: 1 0 auto;
+  }
+
+  #bookImg{
+    
+  }
+

@@ -1,0 +1,25 @@
+#renderedResults{
+	
+	padding: 20px;
+	margin: 20px;
+}
+
+.itemHere{
+	padding: 20px;
+}
+
+.here{
+	padding: 20px;
+}
+body{
+	display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+	
+}
+
+
+  main {
+    flex: 1 0 auto;
+  }
+

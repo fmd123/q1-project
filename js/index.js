@@ -23,9 +23,9 @@ var results = [];
 // GUARDIAN::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 	$("#go").click((event)=>{
-		
+
 		event.preventDefault();
-		
+
 		searchWord = $("#wordInput").val().trim();
 		if(searchWord.length === 0){
 			alert("Please Enter A Word");
@@ -46,8 +46,8 @@ function getResultsG(searchWord) {
 				     //    q: searchWord
 				    	// }
 				        // // 	api-key: ""if I did it this way just the key with no "api-key =" part
-				        // } 
-     
+				        // }
+
       }).done((response) => {
 		parseResultG(response);
       }).fail((err) =>{
@@ -60,7 +60,7 @@ function getResultsG(searchWord) {
     function parseResultG(response){
 
     	var articleArr = response.response.results;
-    	
+
     	console.log (articleArr);
 
     	articles = [];
@@ -89,15 +89,15 @@ function getResultsG(searchWord) {
 	   		var articleDate = d.toDateString();
 	   		//I can slice off the time later. OK for now.
 
-		   	$("#renderedResults").append(`<div class = 'itemHere'><p>${articles[i].title}</p><a target = "_blank" href = "${articles[i].url}">${articles[i].url}</a><p>${articleDate}</p></div><br>`)
-		   	//add date in when I have time to format it <p>${articleDate}</p> 
+		   	$("#renderedResults").append(`<div class = 'itemHere'><p>${articles[i].title}</p><a target = "_blank" rel = "noopener" href = "${articles[i].url}">${articles[i].url}</a><p>${articleDate}</p></div><br>`)
+		   	//add date in when I have time to format it <p>${articleDate}</p>
 		}
 	}
 
 //:::WORDNIK SYNONYM:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $("#synonym").click((event)=>{
-	
+
 	event.preventDefault();
 
 	searchWord = $("#wordInput").val().trim();
@@ -114,13 +114,13 @@ $("#synonym").click((event)=>{
 
 
 function getResultsS(searchWord) {
-	
+
      $.ajax({
         url: 'http://api.wordnik.com:80/v4/word.json/'+searchWord +'/relatedWords?useCanonical=false&relationshipTypes=synonym&limitPerRelationshipType=10&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5',
         method: "GET",
         dataType: "json",
-				      
-     
+
+
       }).done((response) => {
 		parseResultS(response);
       }).fail((err) =>{
@@ -141,7 +141,7 @@ function parseResultS(response){
      	}else{
     	var synonymArr = response[0].words;
 
-    	console.log("synonymArr inside parseResults: ", synonymArr)                                               
+    	console.log("synonymArr inside parseResults: ", synonymArr)
     	renderResultsS(synonymArr);
     }
     }
@@ -161,9 +161,9 @@ function parseResultS(response){
 
 // ::::NYT::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	$("#nyt").click((event)=>{
-		
+
 		event.preventDefault();
-		
+
 		searchWord = $("#wordInput").val().trim();
 		if(searchWord.length === 0){
 			alert("Please Enter A Word");
@@ -191,7 +191,7 @@ function parseResultS(response){
 			}).fail(function(err) {
 			  throw err;
 			});
-					 
+
 	}
 
 
@@ -200,7 +200,7 @@ function parseResultS(response){
 function parseResultN(result){
 		console.log("inside parseResults: ", result);
     	var resource = result.response.docs;
-    	console.log("resource inside parse: ", resource); 
+    	console.log("resource inside parse: ", resource);
 
     	console.log(resource[1].pub_date);
     	console.log(resource[1].snippet);
@@ -211,7 +211,7 @@ function parseResultN(result){
     }
 
 function renderResultN(resource){
-	
+
    	//empty #renderedResults
 	   	$("#renderedResults").empty();
 	   	//append
@@ -220,14 +220,14 @@ function renderResultN(resource){
 	   		var articleDate = d.toDateString();
 	   		var headline = resource[i].headline.main;
 	   		console.log(headline);
-		  
-		   	$("#renderedResults").append(`<div class = 'itemHere'><p class ="here">${resource[i].headline.main}</p><a target = "_blank" href = "${resource[i].web_url}">${resource[i].web_url}</a><p>${resource[i].snippet}</p><p>${articleDate}</p></div><br>`)
+
+		   	$("#renderedResults").append(`<div class = 'itemHere'><p class ="here">${resource[i].headline.main}</p><a target = "_blank" rel = "noopener" href = "${resource[i].web_url}">${resource[i].web_url}</a><p>${resource[i].snippet}</p><p>${articleDate}</p></div><br>`)
 		   	//FOR LATER: ADD A MODAL FOR DISPLAYING SNIPPET
 		   	//p>${resource[i].snippet}</p>
 		 	//	let myBtn = $("#myBtn")
 			// let closeBtn = $(".close")
 
-			// myBtn.click((event)=>{		
+			// myBtn.click((event)=>{
 			// 	event.preventDefault();
 			// 	let modalContent = $(".modal-content")
 			// 	modalContent.style.display = "block";
@@ -239,7 +239,7 @@ function renderResultN(resource){
 		}
 	}
 
-	
+
 
 
 // :::OTHER POSSIBLE APIs:::::::::::::::::::::::::

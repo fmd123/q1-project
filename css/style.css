@@ -8,6 +8,10 @@ a{
     color: darkRed;
 }
 
+.btn-large{
+  margin: 5px;
+}
+
 .itemHere{
     background-color: amber lighten-5;
 	font-size: 15px;
@@ -38,7 +42,7 @@ body{
     flex: 1 0 auto;
   }
 
-  
+
 
   #bookImg{
 
